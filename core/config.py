@@ -46,7 +46,8 @@ DEFAULT_CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 500))
 DEFAULT_CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 50))
 DEFAULT_TOP_K = int(os.getenv("TOP_K", 3))
 
-EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Fast, lightweight, no GPU needed
+# core/config.py
+EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"  # ✅ FastEmbed supported
 
 # ==============================
 # Paths

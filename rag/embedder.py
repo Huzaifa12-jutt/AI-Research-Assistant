@@ -1,24 +1,25 @@
 # ==========================
 # rag/embedder.py
 #
-# Uses FastEmbed (ONNX runtime) instead of sentence-transformers/torch.
-# Same embedding quality for this use case, but no CUDA/torch downloads,
-# which keeps the app light enough to deploy comfortably on free-tier
-# hosting (Streamlit Community Cloud, Render, etc).
+# Uses FastEmbed (ONNX runtime) for lightweight embeddings.
+# Uses a model that is actually supported by FastEmbed.
 # ==========================
 
 from langchain_community.embeddings import FastEmbedEmbeddings
-
-from core.config import EMBEDDING_MODEL
 
 
 def get_embedding_model():
     """
     Load (and lazily cache-download) the embedding model.
+    FastEmbed supports these models:
+    - BAAI/bge-small-en-v1.5 (recommended, ~33MB)
+    - BAAI/bge-base-en-v1.5
+    - BAAI/bge-large-en-v1.5
+    - sentence-transformers/all-MiniLM-L6-v2 (NOT supported by FastEmbed!)
     """
-
     embeddings = FastEmbedEmbeddings(
-        model_name=EMBEDDING_MODEL
+        model_name="BAAI/bge-small-en-v1.5"  # ✅ FastEmbed supported
     )
-
+    
+    print("✅ FastEmbed Model Loaded (BAAI/bge-small-en-v1.5)")
     return embeddings
