@@ -6,6 +6,7 @@
 # ==========================
 
 import os
+import tempfile
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -52,7 +53,11 @@ EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
 # ==============================
 
 DOCUMENTS_PATH = "documents"
-VECTOR_DB_PATH = "chroma_db"
+
+# Streamlit Community Cloud mounts the repo as read-only — only /tmp
+# is writable. So the Chroma vector DB must live in a temp directory,
+# not inside the repo folder.
+VECTOR_DB_PATH = tempfile.mkdtemp(prefix="chroma_db_")
 
 MAX_FILE_SIZE_MB = 25
 MAX_FILES = 5
