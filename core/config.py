@@ -54,8 +54,7 @@ EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Fast, lightweight, no GPU needed
 
 DOCUMENTS_PATH = "documents"
 
-# For FAISS, we use a simple path that works on Streamlit Cloud
-# FAISS can work with both in-memory and disk storage
+# For FAISS - works on Streamlit Cloud (in-memory)
 VECTOR_DB_PATH = os.getenv("VECTOR_DB_PATH", "./faiss_index")
 
 # Create directory if it doesn't exist
