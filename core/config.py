@@ -6,6 +6,7 @@
 # ==========================
 
 import os
+import tempfile
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -41,18 +42,32 @@ DEFAULT_TEMPERATURE = float(os.getenv("TEMPERATURE", 0.2))
 # RAG settings
 # ==============================
 
-DEFAULT_CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 1000))
-DEFAULT_CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 150))
-DEFAULT_TOP_K = int(os.getenv("TOP_K", 4))
+DEFAULT_CHUNK_SIZE = int(os.getenv("CHUNK_SIZE", 500))
+DEFAULT_CHUNK_OVERLAP = int(os.getenv("CHUNK_OVERLAP", 50))
+DEFAULT_TOP_K = int(os.getenv("TOP_K", 3))
 
-EMBEDDING_MODEL = "BAAI/bge-small-en-v1.5"
+EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Fast, lightweight, no GPU needed
 
 # ==============================
 # Paths
 # ==============================
 
 DOCUMENTS_PATH = "documents"
-VECTOR_DB_PATH = "chroma_db"
+
+# For FAISS, we use a simple path that works on Streamlit Cloud
+# FAISS can work with both in-memory and disk storage
+VECTOR_DB_PATH = os.getenv("VECTOR_DB_PATH", "./faiss_index")
+
+# Create directory if it doesn't exist
+if not os.path.exists(VECTOR_DB_PATH):
+    os.makedirs(VECTOR_DB_PATH, exist_ok=True)
 
 MAX_FILE_SIZE_MB = 25
 MAX_FILES = 5
+
+# ==============================
+# ChromaDB fallback (if needed)
+# ==============================
+
+# ChromaDB requires a writable path. On Streamlit Cloud, use tempdir.
+CHROMA_DB_PATH = tempfile.mkdtemp(prefix="chroma_db_")
