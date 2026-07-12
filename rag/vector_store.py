@@ -4,16 +4,13 @@
 
 import logging
 import shutil
+import os
 
-from langchain_chroma import Chroma
+from langchain_community.vectorstores import FAISS
 
 from core.config import VECTOR_DB_PATH
 
-# Chroma's telemetry client has a known harmless bug where it logs
-# "Failed to send telemetry event ..." errors on every call. It doesn't
-# affect functionality, but it looks like a real error in the console,
-# so it's silenced here.
-logging.getLogger("chromadb.telemetry.product.posthog").setLevel(logging.CRITICAL)
+# FAISS doesn't have telemetry issues, so no logging suppression needed
 
 
 def reset_vector_store():
@@ -21,35 +18,39 @@ def reset_vector_store():
     Wipe any existing vector database so a fresh one can be built
     (used when the user uploads a new set of documents).
     """
-
-    shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
+    if os.path.exists(VECTOR_DB_PATH):
+        shutil.rmtree(VECTOR_DB_PATH, ignore_errors=True)
+        print(f"✅ Vector store cleared: {VECTOR_DB_PATH}")
 
 
 def create_vector_store(chunks, embedding_model):
     """
-    Build a new Chroma vector database from document chunks and
-    persist it to disk.
+    Build a new FAISS vector database from document chunks.
+    Works on Streamlit Cloud (in-memory, no write issues).
     """
-
     reset_vector_store()
-
-    vector_db = Chroma.from_documents(
+    
+    # FAISS stores in-memory by default (no persist_directory needed)
+    vector_db = FAISS.from_documents(
         documents=chunks,
-        embedding=embedding_model,
-        persist_directory=VECTOR_DB_PATH,
+        embedding=embedding_model
     )
-
+    
+    print(f"✅ FAISS Vector Store Created Successfully")
     return vector_db
 
 
 def load_vector_store(embedding_model):
     """
-    Load an existing Chroma vector database from disk.
+    Load an existing FAISS vector database from disk.
     """
-
-    vector_db = Chroma(
-        persist_directory=VECTOR_DB_PATH,
-        embedding_function=embedding_model,
-    )
-
-    return vector_db
+    if os.path.exists(VECTOR_DB_PATH):
+        vector_db = FAISS.load_local(
+            folder_path=VECTOR_DB_PATH,
+            embeddings=embedding_model,
+            allow_dangerous_deserialization=True
+        )
+        print(f"✅ FAISS Vector Store Loaded from: {VECTOR_DB_PATH}")
+        return vector_db
+    else:
+        raise ValueError(f"No vector store found at: {VECTOR_DB_PATH}")

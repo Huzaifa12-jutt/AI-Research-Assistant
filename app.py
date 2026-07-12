@@ -1,7 +1,7 @@
 # ==========================================================
 # AI Research Assistant
 # Retrieval-Augmented Generation over your own PDFs, powered
-# by Groq (LPU inference) + LangChain + Chroma + Streamlit.
+# by Groq (LPU inference) + LangChain + FAISS + Streamlit.
 # ==========================================================
 
 import os
@@ -181,7 +181,7 @@ with st.sidebar:
         )
 
     st.markdown(
-        '<div class="ara-footer">Built with Streamlit · LangChain · Chroma · Groq</div>',
+        '<div class="ara-footer">Built with Streamlit · LangChain · FAISS · Groq</div>',
         unsafe_allow_html=True,
     )
 
@@ -243,7 +243,7 @@ if process:
             vector_db = create_vector_store(chunks, embeddings)
 
             st.write("🔗 Connecting retriever + Groq model...")
-            retriever = get_retriever(vector_db, top_k=top_k)
+            retriever = get_retriever(vector_db=vector_db, top_k=top_k)
             chatbot = create_chatbot(
                 retriever=retriever,
                 api_key=api_key,
