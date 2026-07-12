@@ -1,0 +1,24 @@
+# Environment / secrets
+.env
+venv_ai/
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Runtime data
+chroma_db/
+documents/*
+!documents/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

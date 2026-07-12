@@ -1,0 +1,262 @@
+/* =====================================================
+   AI Research Assistant — "Annotated Paper" theme
+   Ink-navy workspace, warm paper cards, amber highlighter accent.
+   ===================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+:root{
+  --ink-950:#0B1220;
+  --ink-900:#0F1626;
+  --ink-800:#161F35;
+  --ink-700:#1E2A45;
+  --ink-600:#2A3A5C;
+  --paper:#F6F1E4;
+  --paper-dim:#EDE6D3;
+  --amber:#E8A93B;
+  --amber-bright:#F5BE5C;
+  --amber-dim:#8A5F1E;
+  --teal:#5FC7B8;
+  --text-soft:#C9D2E3;
+  --text-faint:#8B96AF;
+  --danger:#E06666;
+}
+
+html, body, [class*="css"]{
+  font-family:'Inter', -apple-system, sans-serif;
+}
+
+/* ---------- App background ---------- */
+.stApp{
+  background:
+    radial-gradient(circle at 15% 0%, rgba(232,169,59,0.06) 0%, transparent 45%),
+    radial-gradient(circle at 85% 100%, rgba(95,199,184,0.05) 0%, transparent 40%),
+    var(--ink-950);
+  color: var(--text-soft);
+}
+
+section.main > div{ padding-top: 1.2rem; }
+
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebar"]{
+  background: var(--ink-900);
+  border-right: 1px solid var(--ink-700);
+}
+[data-testid="stSidebar"] *{ color: var(--text-soft); }
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3{
+  font-family:'Source Serif 4', serif;
+  color: var(--paper);
+}
+
+/* ---------- Headings ---------- */
+h1, h2, h3{
+  font-family:'Source Serif 4', serif;
+  color: var(--paper);
+  letter-spacing: 0.2px;
+}
+
+/* ---------- Hero banner ---------- */
+.ara-hero{
+  background: linear-gradient(135deg, var(--ink-800) 0%, var(--ink-900) 100%);
+  border: 1px solid var(--ink-700);
+  border-radius: 16px;
+  padding: 2rem 2.2rem;
+  margin-bottom: 1.4rem;
+  position: relative;
+  overflow: hidden;
+}
+.ara-hero::after{
+  content:"";
+  position:absolute; top:-40%; right:-10%;
+  width:260px; height:260px;
+  background: radial-gradient(circle, rgba(232,169,59,0.16) 0%, transparent 70%);
+}
+.ara-hero .eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:0.72rem; letter-spacing:2.5px; text-transform:uppercase;
+  color: var(--amber-bright); margin-bottom:0.5rem; display:block;
+}
+.ara-hero h1{
+  font-size: 2.1rem; margin: 0 0 0.4rem 0; color: var(--paper);
+}
+.ara-hero p{
+  color: var(--text-soft); font-size:0.98rem; max-width:640px; margin:0;
+}
+
+/* ---------- Stat cards ---------- */
+.ara-stats{ display:flex; gap:0.8rem; flex-wrap:wrap; margin: 0.8rem 0 1.4rem 0; }
+.ara-stat{
+  background: var(--ink-800);
+  border: 1px solid var(--ink-700);
+  border-radius: 12px;
+  padding: 0.85rem 1.1rem;
+  flex: 1 1 140px;
+  min-width: 130px;
+}
+.ara-stat .num{
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 1.4rem; font-weight:600; color: var(--amber-bright);
+  display:block;
+}
+.ara-stat .label{
+  font-size: 0.74rem; color: var(--text-faint); text-transform:uppercase; letter-spacing:1px;
+}
+
+/* ---------- Welcome / empty state cards ---------- */
+.ara-card{
+  background: var(--ink-800);
+  border: 1px solid var(--ink-700);
+  border-radius: 14px;
+  padding: 1.3rem 1.4rem;
+  height:100%;
+}
+.ara-card .icon{ font-size:1.4rem; margin-bottom:0.4rem; display:block; }
+.ara-card h4{
+  font-family:'Source Serif 4', serif; color: var(--paper);
+  margin: 0 0 0.35rem 0; font-size:1.05rem;
+}
+.ara-card p{ color: var(--text-faint); font-size:0.88rem; margin:0; line-height:1.5; }
+
+/* ---------- Chat messages ---------- */
+[data-testid="stChatMessage"]{
+  background: transparent;
+  border-radius: 14px;
+  padding: 0.2rem 0.1rem;
+}
+
+[data-testid="stChatMessageContent"]{
+  font-size: 0.96rem;
+  line-height: 1.55;
+}
+
+/* Assistant message = paper card, dog-eared corner */
+div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) [data-testid="stChatMessageContent"]{
+  background: var(--paper);
+  color: #23241f;
+  border-radius: 4px 14px 14px 14px;
+  padding: 0.95rem 1.15rem;
+  position: relative;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarAssistant"]) [data-testid="stChatMessageContent"]::before{
+  content:"";
+  position:absolute; top:0; left:0;
+  width:0; height:0;
+  border-style:solid;
+  border-width: 14px 14px 0 0;
+  border-color: var(--paper-dim) transparent transparent transparent;
+}
+
+/* User message = amber-tinted ink card */
+div[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]) [data-testid="stChatMessageContent"]{
+  background: var(--ink-700);
+  border: 1px solid var(--amber-dim);
+  color: var(--paper);
+  border-radius: 14px 4px 14px 14px;
+  padding: 0.95rem 1.15rem;
+}
+
+/* ---------- Source citation chips ---------- */
+.ara-source{
+  background: var(--ink-800);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 8px 8px 0;
+  padding: 0.55rem 0.85rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+.ara-source .tag{
+  font-family:'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--amber-bright);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display:block;
+  margin-bottom: 0.2rem;
+}
+.ara-source .snippet{ color: var(--text-soft); }
+
+/* ---------- Buttons ---------- */
+.stButton > button{
+  background: var(--amber);
+  color: #1B1305;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  transition: transform 0.12s ease, background 0.12s ease;
+}
+.stButton > button:hover{
+  background: var(--amber-bright);
+  transform: translateY(-1px);
+}
+.stButton > button:disabled{
+  background: var(--ink-600);
+  color: var(--text-faint);
+}
+
+[data-testid="stSidebar"] .stButton > button{
+  width: 100%;
+}
+
+/* Secondary / reset buttons get an outline look via help text convention */
+button[kind="secondary"]{
+  background: transparent !important;
+  border: 1px solid var(--ink-600) !important;
+  color: var(--text-soft) !important;
+}
+
+/* ---------- Inputs ---------- */
+.stTextInput input, .stTextArea textarea, .stNumberInput input{
+  background: var(--ink-800) !important;
+  color: var(--paper) !important;
+  border: 1px solid var(--ink-600) !important;
+  border-radius: 8px !important;
+}
+
+[data-testid="stFileUploaderDropzone"]{
+  background: var(--ink-800);
+  border: 1.5px dashed var(--ink-600);
+  border-radius: 12px;
+}
+
+/* Chat input bar */
+[data-testid="stChatInput"]{
+  background: var(--ink-900);
+  border-top: 1px solid var(--ink-700);
+}
+[data-testid="stChatInput"] textarea{
+  background: var(--ink-800) !important;
+  color: var(--paper) !important;
+}
+
+/* ---------- Misc ---------- */
+hr{ border-color: var(--ink-700) !important; }
+
+[data-testid="stMetricValue"]{
+  color: var(--amber-bright);
+  font-family:'IBM Plex Mono', monospace;
+}
+[data-testid="stMetricLabel"]{ color: var(--text-faint); }
+
+.ara-footer{
+  text-align:center;
+  color: var(--text-faint);
+  font-size: 0.78rem;
+  padding: 1.2rem 0 0.4rem 0;
+}
+.ara-footer a{ color: var(--teal); text-decoration:none; }
+
+/* Scrollbar */
+::-webkit-scrollbar{ width:8px; height:8px; }
+::-webkit-scrollbar-track{ background: var(--ink-900); }
+::-webkit-scrollbar-thumb{ background: var(--ink-600); border-radius:8px; }
+
+/* Responsive tweaks */
+@media (max-width: 640px){
+  .ara-hero{ padding: 1.4rem 1.2rem; }
+  .ara-hero h1{ font-size: 1.5rem; }
+  .ara-stats{ flex-direction:column; }
+}
